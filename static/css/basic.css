@@ -1,0 +1,36 @@
+div.clockTime {
+    color: white;
+    font-family: 'Manjari', sans-serif;
+    font-size: 45px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    margin-left: -500px;
+    width: 1000px;
+    text-align: center;
+}
+
+body {
+    /* background-color: blue; */
+    background-image: url(../img/orange_cloud.jpg);
+    background-position: bottom;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+a:link {
+    opacity:0;
+    transition: opacity 3s;
+    background-color: transparent;
+    text-decoration: none;
+    font-family: 'Manjari', sans-serif;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#clock {
+    transition: opacity 3s;
+}
