@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css?family=Manjari');
+
+.clockTime {
+    color: white;
+    font-family: 'Manjari', sans-serif;
+    font-size: 40px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    margin-left: -500px;
+    width: 1000px;
+    text-align: center;
+}
+
+#clock {
+    transition: opacity 3s;
+}

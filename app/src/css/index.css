@@ -1,7 +1,12 @@
 body {
     padding: 50px;
-    background-color: #66ccff;
     font-family: sans-serif; 
+
+    background-image: url(../img/orange_cloud.jpg);
+    background-position: bottom;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 #container {

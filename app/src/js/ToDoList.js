@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import "../css/ToDoList.css"
 import ToDoItems from "./ToDoItems";
+import Clock from "./Clock";
 
 class ToDoList extends Component {
     constructor(props) {
@@ -48,17 +49,22 @@ class ToDoList extends Component {
     render() {
         return (
             <div className="toDoListMain">
-                <div className="header">
-                    <form onSubmit={this.addItem}>
-                        <input  ref={(a) => this._inputElement=a} 
-                                placeholder="enter task">
+                <div className="cloud">
+                    <ToDoItems entries={this.state.items}
+                            delete={this.deleteItem}/>
+                </div>
 
+                <div className="input-div">
+                    <form onclick="this.select()" onSubmit={this.addItem}>
+                        <input  className="input-prompt"  
+                                ref={(a) => this._inputElement=a} 
+                                placeholder="enter task">
                         </input>
-                        <button type="submit">add</button>
                     </form>
                 </div>
-                <ToDoItems entries={this.state.items}
-                           delete={this.deleteItem}/>
+
+                <Clock/>
+
             </div>
         )
     }

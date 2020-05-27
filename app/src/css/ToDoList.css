@@ -1,26 +1,30 @@
-.toDoListMain .header input {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid #FFF;
-    width: 165px;
+
+.input-prompt {
+    position: fixed;
+    bottom: 165px;
+    width:600px;
+    z-index: 1;
+    display: inline-block;
+
+    font-size: 20px;
+    text-align: left;
+    color: rgb(83, 82, 82);
+    font-family: 'Manjari', sans-serif;
+
+    padding: 17px;
+    border: none;
+    background-color: rgba(255,255,255,.6);
+    border-radius: 10px;
+    
+    left: 50%;
+    margin-left: -400px;
+    width: 800px;
 }
 
-button {
-    padding: 10px;
-    font-size: 16px;
-    margin:10px;
-    margin-right: 0px;
-    background-color: #0066FF;
-    color: #FFF;
-    border: 2px solid #0066FF;
+.input-prompt:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    outline:none;
 }
-
-button:hover {
-    background-color: #003399;
-    border: 2px solid #003399;
-    cursor: pointer;
-}
-
 .toDoListMain .theList {
     list-style: none;
     padding-left: 0;
