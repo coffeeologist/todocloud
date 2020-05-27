@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import "../css/ToDoList.css"
 import ToDoItems from "./ToDoItems";
 import Clock from "./Clock";
+import Cloud from "./Cloud";
 
 class ToDoList extends Component {
     constructor(props) {
@@ -50,7 +51,7 @@ class ToDoList extends Component {
         return (
             <div className="toDoListMain">
                 <div className="cloud">
-                    <ToDoItems entries={this.state.items}
+                    <Cloud entries={this.state.items}
                             delete={this.deleteItem}/>
                 </div>
 
@@ -63,7 +64,9 @@ class ToDoList extends Component {
                     </form>
                 </div>
 
-                <Clock/>
+                <div className="clock">
+                    <Clock/>
+                </div>
 
             </div>
         )
