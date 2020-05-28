@@ -1,6 +1,5 @@
 import React, {Component} from "react";
-import "../css/ToDoList.css"
-import ToDoItems from "./ToDoItems";
+import "../css/ToDoList.css";
 import Clock from "./Clock";
 import Cloud from "./Cloud";
 

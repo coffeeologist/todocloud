@@ -1,16 +1,23 @@
 import React, {Component} from "react";
+import "../css/Cloud.css";
 
 class Cloud extends Component {
 
     constructor(props) {
         super(props);
+
+        this.deleteTask = this.deleteTask.bind(this);
+        this.createTask = this.createTask.bind(this);
+        this.renderTask = this.renderTask.bind(this);
     }
 
-    createTask(taskName) {
+    createTask(task) {
         var node = {
-            name: taskName,
+            key: task.key,
+            name: task.text,
             color: 'blue',
-            fontSize:10
+            fontSize:10,
+            bottom:200
         }
         return node;
     }
@@ -18,39 +25,34 @@ class Cloud extends Component {
     renderTask(node) {
         var style = {
             color: node.color,
-            fontSize: node.fontSize
+            position: 'absolute',
+            bottom: node.bottom
         };
 
         return (
-            <div>
-                <p style={style}>{node.name}</p>
-            </div>
+                <p 
+                    onClick={()=>this.deleteTask(node.key)}
+                    key={node.key} 
+                    className='node'
+                    style={style}>{node.name}</p>
         );
 
     }
 
-    delete(key) {
+    deleteTask(key) {
         this.props.delete(key);
     }
 
     render() {
         var toDoEntries = this.props.entries;
-        var nodeContainer = document.createElement("div");
-        var nodeLink = document.createElement("a");
-        var nodeText = document.createTextNode("hello");
-        nodeContainer.appendChild(nodeLink);
-        nodeContainer.style.position = "absolute";
-        nodeLink.appendChild(nodeText);
-        nodeLink.title = "title";
-        nodeLink.href = "href";
-        nodeLink.target ="_blank";
-        var strSize = '10 px';
-        nodeLink.style.fontSize = strSize;
+        var nodesList = toDoEntries.map(this.createTask);
+        var renderedList = nodesList.map(this.renderTask);
 
-        
-        var node = this.createTask("hello");
-        node.color = "white";
-        return this.renderTask(node);
+        return (
+            <div className='nodeCollection'>
+                {renderedList}
+            </div>
+        );
     }
 }
 
