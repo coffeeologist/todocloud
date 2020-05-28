@@ -9,24 +9,41 @@ class Cloud extends Component {
         this.deleteTask = this.deleteTask.bind(this);
         this.createTask = this.createTask.bind(this);
         this.renderTask = this.renderTask.bind(this);
+        this.setLocationOfTask = this.setLocationOfTask.bind(this);
+        this.placeTask = this.placeTask.bind(this);
     }
 
     createTask(task) {
         var node = {
             key: task.key,
             name: task.text,
+
             color: 'blue',
             fontSize:10,
-            bottom:200
+            top:200,
+            left: 0,
         }
         return node;
+    }
+
+    setLocationOfTask(node, x, y) {
+        node.left = x;
+        node.top = y;
+    }
+
+    placeTask(nodeList) {
+        for(var i = 0; i<nodeList.length; i++) {
+            this.setLocationOfTask(nodeList[i], i*50, i*50);
+        }
     }
 
     renderTask(node) {
         var style = {
             color: node.color,
+            fontSize: node.fontSize,
             position: 'absolute',
-            bottom: node.bottom
+            top: node.top,
+            left: node.left
         };
 
         return (
@@ -46,6 +63,7 @@ class Cloud extends Component {
     render() {
         var toDoEntries = this.props.entries;
         var nodesList = toDoEntries.map(this.createTask);
+        this.placeTask(nodesList);
         var renderedList = nodesList.map(this.renderTask);
 
         return (

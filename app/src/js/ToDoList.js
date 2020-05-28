@@ -55,7 +55,7 @@ class ToDoList extends Component {
                 </div>
 
                 <div className="input-div">
-                    <form onclick="this.select()" onSubmit={this.addItem}>
+                    <form onSubmit={this.addItem}>
                         <input  className="input-prompt"  
                                 ref={(a) => this._inputElement=a} 
                                 placeholder="enter task">
