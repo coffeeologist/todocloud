@@ -11,29 +11,94 @@ class Cloud extends Component {
         this.renderTask = this.renderTask.bind(this);
         this.setLocationOfTask = this.setLocationOfTask.bind(this);
         this.placeTask = this.placeTask.bind(this);
+        this.spiral = this.spiral.bind(this);
     }
 
     createTask(task) {
+        var colors = ["#4d6f88", "#7f7c8e", "#7394aa", "#95a0af", "#8b848c"];
         var node = {
             key: task.key,
             name: task.text,
 
-            color: 'blue',
-            fontSize:10,
+            color: colors[Math.floor(Math.random()*colors.length)],
+            fontSize:25,
             top:200,
             left: 0,
+            
+            width:25*task.text.length,
+            height:25,
+
+            bottom: 0,
+            right: 0
         }
+
+        node.bottom = node.top + node.height;
+        node.right = node.left + node.width;
+
+        // var heh = this.renderTask(node);
+        // node.width = this.dummy.offsetWidth;
         return node;
     }
 
     setLocationOfTask(node, x, y) {
-        node.left = x;
+        node.left = x - node.width/2;
         node.top = y;
+
+        node.bottom = node.top + node.height;
+        node.right = node.left + node.width;
     }
 
+    spiral(i){
+        var angle=i;
+        var xp = parseInt((1 + angle) * 2.5*Math.cos(angle));
+        var yp = parseInt((1 + angle) * Math.sin(angle));
+        var dif = {
+            x:xp,
+            y:yp
+        };
+        return dif;
+    }
+
+    intersect(node, wordsDown) {
+        for(var i = 0; i < wordsDown.length; i+=1){
+            var comparisonWord = wordsDown[i];
+            
+            if(!(node.right + 3 < comparisonWord.left - 3||
+                    node.left - 3> comparisonWord.right + 3 ||
+                    node.bottom < comparisonWord.top ||
+                    node.top > comparisonWord.bottom )){
+                
+                return true;
+            }
+        }
+        return false;
+    }
+    // componentDidMount() {
+    //     node.width = this.dummy.offsetWidth;
+    //     node.height = this.dummy.offsetHeight;
+    // }
+
     placeTask(nodeList) {
+        var wordsDown = []
+
+        var starting = {
+            x: window.innerWidth/2,
+            y: window.innerHeight/3
+        }
         for(var i = 0; i<nodeList.length; i++) {
-            this.setLocationOfTask(nodeList[i], i*50, i*50);
+            var task = nodeList[i];
+
+            var isSet = false;
+            inner:
+            for(var j = 0; j<360; j++) {
+                var dif = this.spiral(j);
+                this.setLocationOfTask(task, starting.x + dif.x, starting.y +dif.y);
+                isSet = !this.intersect(task, wordsDown);
+                if (isSet) {
+                    wordsDown = wordsDown.concat(task);
+                    break inner;
+                }
+            }
         }
     }
 
@@ -46,12 +111,34 @@ class Cloud extends Component {
             left: node.left
         };
 
+        var borderStyle = {
+            display: "inline-block",
+            color:"black",
+            width: node.width,
+            height: node.height,
+            position: 'absolute',
+            top: node.top,
+            left: node.left,
+            border: "4px dotted blue",
+            // padding: 15
+        }
+
         return (
+            <div>
+                <div style={borderStyle}>
+
+                </div>
                 <p 
+                    ref={el => (this.dummy = el)}
                     onClick={()=>this.deleteTask(node.key)}
                     key={node.key} 
                     className='node'
-                    style={style}>{node.name}</p>
+                    style={style}>
+
+                    {node.name}: {node.width}
+                </p>
+
+            </div>
         );
 
     }
