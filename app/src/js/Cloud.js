@@ -12,6 +12,7 @@ class Cloud extends Component {
         this.setLocationOfTask = this.setLocationOfTask.bind(this);
         this.placeTask = this.placeTask.bind(this);
         this.spiral = this.spiral.bind(this);
+        this.get_tex_width = this.get_tex_width.bind(this);
     }
 
     createTask(task) {
@@ -34,10 +35,19 @@ class Cloud extends Component {
 
         node.bottom = node.top + node.height;
         node.right = node.left + node.width;
+        node.width = this.get_tex_width(node.name, "25px Manjari");
 
         // var heh = this.renderTask(node);
         // node.width = this.dummy.offsetWidth;
         return node;
+    }
+
+    get_tex_width(txt, font) {
+        // https://stackoverflow.com/questions/31305071/measuring-text-width-height-without-rendering
+        this.element = document.createElement('canvas');
+        this.context = this.element.getContext("2d");
+        this.context.font = font;
+        return this.context.measureText(txt).width;
     }
 
     setLocationOfTask(node, x, y) {
@@ -135,7 +145,7 @@ class Cloud extends Component {
                     className='node'
                     style={style}>
 
-                    {node.name}: {node.width}
+                    {node.name}
                 </p>
 
             </div>
