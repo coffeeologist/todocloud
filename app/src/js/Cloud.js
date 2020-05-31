@@ -12,37 +12,52 @@ class Cloud extends Component {
         this.setLocationOfTask = this.setLocationOfTask.bind(this);
         this.placeTask = this.placeTask.bind(this);
         this.spiral = this.spiral.bind(this);
-        this.get_tex_width = this.get_tex_width.bind(this);
+        this.getTextWidth = this.getTextWidth.bind(this);
+        this.updateTopAndBottom = this.updateTopAndBottom.bind(this);
     }
 
     createTask(task) {
         var colors = ["#4d6f88", "#7f7c8e", "#7394aa", "#95a0af", "#8b848c"];
+        const im = [25, 32, 40, 47, 55, 62, 70, 77, 85, 92, 100]
         var node = {
             key: task.key,
             name: task.text,
 
             color: colors[Math.floor(Math.random()*colors.length)],
-            fontSize:25,
+            fontSize: im[task.fl],
             top:200,
             left: 0,
+            borderRadius: 0,
+            paddingTop: 0,
+            paddingBottom: 0,
             
-            width:25*task.text.length,
-            height:25,
+            width:0,
+            height:0,
 
             bottom: 0,
             right: 0
         }
 
-        node.bottom = node.top + node.height;
-        node.right = node.left + node.width;
-        node.width = this.get_tex_width(node.name, "25px Manjari");
+        node.borderRadius = node.fontSize/10 + 5;
+        node.paddingTop = (node.fontSize/5);
+        node.paddingBottom = 0;
+        var pad = node.paddingTop + node.paddingBottom;
 
-        // var heh = this.renderTask(node);
-        // node.width = this.dummy.offsetWidth;
+        node.width = this.getTextWidth(node.name, node.fontSize+"px Manjari") + pad;
+        node.height = node.fontSize + pad;
+
+        this.updateTopAndBottom(node);
+
         return node;
     }
 
-    get_tex_width(txt, font) {
+    updateTopAndBottom(node){
+        node.bottom = node.top + node.height;
+        node.right = node.left + node.width;
+
+    }
+
+    getTextWidth(txt, font) {
         // https://stackoverflow.com/questions/31305071/measuring-text-width-height-without-rendering
         this.element = document.createElement('canvas');
         this.context = this.element.getContext("2d");
@@ -53,9 +68,7 @@ class Cloud extends Component {
     setLocationOfTask(node, x, y) {
         node.left = x - node.width/2;
         node.top = y;
-
-        node.bottom = node.top + node.height;
-        node.right = node.left + node.width;
+        this.updateTopAndBottom(node);
     }
 
     spiral(i){
@@ -76,17 +89,13 @@ class Cloud extends Component {
             if(!(node.right + 3 < comparisonWord.left - 3||
                     node.left - 3> comparisonWord.right + 3 ||
                     node.bottom < comparisonWord.top ||
-                    node.top > comparisonWord.bottom )){
+                    node.top -3 > comparisonWord.bottom +3 )){
                 
                 return true;
             }
         }
         return false;
     }
-    // componentDidMount() {
-    //     node.width = this.dummy.offsetWidth;
-    //     node.height = this.dummy.offsetHeight;
-    // }
 
     placeTask(nodeList) {
         var wordsDown = []
@@ -95,6 +104,13 @@ class Cloud extends Component {
             x: window.innerWidth/2,
             y: window.innerHeight/3
         }
+
+        // prioritize font size, then time of entry
+        nodeList.sort((a, b) => 
+            a.fontSize < b.fontSize ? 1 : 
+            (a.fontSize - b.fontSize === 0) ? a.key - b.key : -1
+        );
+
         for(var i = 0; i<nodeList.length; i++) {
             var task = nodeList[i];
 
@@ -118,7 +134,10 @@ class Cloud extends Component {
             fontSize: node.fontSize,
             position: 'absolute',
             top: node.top,
-            left: node.left
+            left: node.left,
+            borderRadius: node.borderRadius,
+            paddingTop: node.paddingTop,
+            paddingBottom: node.paddingBottom
         };
 
         var borderStyle = {
@@ -135,9 +154,9 @@ class Cloud extends Component {
 
         return (
             <div>
-                <div style={borderStyle}>
+                {/* <div style={borderStyle}>
 
-                </div>
+                </div> */}
                 <p 
                     ref={el => (this.dummy = el)}
                     onClick={()=>this.deleteTask(node.key)}
