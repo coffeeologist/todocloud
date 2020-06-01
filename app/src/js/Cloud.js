@@ -17,13 +17,13 @@ class Cloud extends Component {
     }
 
     createTask(task) {
-        var colors = ["#4d6f88", "#7f7c8e", "#7394aa", "#95a0af", "#8b848c"];
+        var colors = ["#4d6f88", "#95a0af", "#7394aa", "#7f7c8e", "#8b848c"];
         const im = [25, 32, 40, 47, 55, 62, 70, 77, 85, 92, 100]
         var node = {
             key: task.key,
             name: task.text,
 
-            color: colors[Math.floor(Math.random()*colors.length)],
+            color: colors[task.key % 5],
             fontSize: im[task.fl],
             top:200,
             left: 0,

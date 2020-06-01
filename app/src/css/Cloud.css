@@ -18,4 +18,5 @@
 .node:hover {
   background-color: rgba(254, 219, 199, 0.9) !important;
   cursor: pointer;
+  text-decoration: line-through !important;
 }
