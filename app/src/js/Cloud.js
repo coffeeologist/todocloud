@@ -30,6 +30,8 @@ class Cloud extends Component {
             borderRadius: 0,
             paddingTop: 0,
             paddingBottom: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
             
             width:0,
             height:0,
@@ -41,10 +43,13 @@ class Cloud extends Component {
         node.borderRadius = node.fontSize/10 + 5;
         node.paddingTop = (node.fontSize/5);
         node.paddingBottom = 0;
-        var pad = node.paddingTop + node.paddingBottom;
+        node.paddingLeft = (node.fontSize/5);
+        node.paddingRight = (node.fontSize/5);
+        var vpad = node.paddingTop + node.paddingBottom;
+        var hpad = node.paddingLeft + node.paddingRight;
 
-        node.width = this.getTextWidth(node.name, node.fontSize+"px Manjari") + pad;
-        node.height = node.fontSize + pad;
+        node.width = this.getTextWidth(node.name, node.fontSize+"px Manjari") + hpad;
+        node.height = node.fontSize + vpad;
 
         this.updateTopAndBottom(node);
 
@@ -137,26 +142,13 @@ class Cloud extends Component {
             left: node.left,
             borderRadius: node.borderRadius,
             paddingTop: node.paddingTop,
-            paddingBottom: node.paddingBottom
+            paddingBottom: node.paddingBottom,
+            paddingLeft: node.paddingLeft,
+            paddingRight: node.paddingRight
         };
-
-        var borderStyle = {
-            display: "inline-block",
-            color:"black",
-            width: node.width,
-            height: node.height,
-            position: 'absolute',
-            top: node.top,
-            left: node.left,
-            border: "4px dotted blue",
-            // padding: 15
-        }
 
         return (
             <div>
-                {/* <div style={borderStyle}>
-
-                </div> */}
                 <p 
                     ref={el => (this.dummy = el)}
                     onClick={()=>this.deleteTask(node.key)}
