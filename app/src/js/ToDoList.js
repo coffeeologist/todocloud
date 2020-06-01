@@ -18,10 +18,23 @@ class ToDoList extends Component {
     addItem(e) {
         if (this._inputElement.value !== "") {
             var input = this._inputElement.value.split("fl:", 2);
+            var f = 4;
+            if(input.length === 2) {
+                var parsed = parseInt(input[1]);
+                if(isNaN(parsed)) {
+                    f = 4;
+                } else if (parsed > 9) {
+                    f = 9;
+                } else if (parsed < 0) {
+                    f = 0;
+                } else {
+                    f = parsed;
+                }
+            }
             var newItem = {
                 text: input[0],
                 key: Date.now(),
-                fl: (input.length === 2 || input[1] === "") ? input[1] : 4
+                fl: f
             };
 
         }
